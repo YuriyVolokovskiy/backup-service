@@ -1,0 +1,34 @@
+s3:
+  endpoint: "${S3_ENDPOINT}"
+  region: "${S3_REGION}"
+  bucket: "${S3_BUCKET}"
+  access_key_id: "${S3_ACCESS_KEY_ID}"
+  secret_access_key: "${S3_SECRET_ACCESS_KEY}"
+  force_path_style: true
+
+telegram:
+  enabled: true
+  bot_token: "${TELEGRAM_BOT_TOKEN}"
+  chat_id: "${TELEGRAM_CHAT_ID}"
+  success_enabled: true
+
+defaults:
+  retention:
+    daily: 7
+    weekly: 4
+    monthly: 12
+  backup_cron: "0 2 * * *"
+  cleanup_cron: "0 5 * * *"
+  compression_level: 9
+
+targets:
+  - id: simple-estate-prod
+    engine: postgres
+    database_url_env: SIMPLE_ESTATE_PROD_DATABASE_URL
+    s3_prefix: simple-estate/prod/postgres
+    backup_cron: "0 2 * * *"
+    cleanup_cron: "0 5 * * *"
+    retention:
+      daily: 7
+      weekly: 4
+      monthly: 12
