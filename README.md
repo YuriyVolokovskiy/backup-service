@@ -6,9 +6,9 @@
 
 ```bash
 backup-service serve --config /etc/backup-service/config.yaml
-backup-service backup --config /etc/backup-service/config.yaml --target simple-estate-prod
-backup-service cleanup --config /etc/backup-service/config.yaml --target simple-estate-prod
-backup-service list --config /etc/backup-service/config.yaml --target simple-estate-prod
+backup-service backup --config /etc/backup-service/config.yaml --target example-app-prod
+backup-service cleanup --config /etc/backup-service/config.yaml --target example-app-prod
+backup-service list --config /etc/backup-service/config.yaml --target example-app-prod
 ```
 
 ## Конфигурация

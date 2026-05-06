@@ -22,10 +22,10 @@ defaults:
   compression_level: 9
 
 targets:
-  - id: simple-estate-prod
+  - id: example-app-prod
     engine: postgres
-    database_url_env: SIMPLE_ESTATE_PROD_DATABASE_URL
-    s3_prefix: simple-estate/prod/postgres
+    database_url_env: EXAMPLE_APP_PROD_DATABASE_URL
+    s3_prefix: example-app/prod/postgres
     backup_cron: "0 2 * * *"
     cleanup_cron: "0 5 * * *"
     retention:
