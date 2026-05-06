@@ -12,9 +12,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates tzdata postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd --system --create-home --uid 10001 backup
+RUN useradd --create-home --uid 10001 --user-group --shell /usr/sbin/nologin backupsvc
 COPY --from=builder /out/backup-service /usr/local/bin/backup-service
 
-USER backup
+USER backupsvc
 ENTRYPOINT ["backup-service"]
 CMD ["serve", "--config", "/etc/backup-service/config.yaml"]
