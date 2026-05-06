@@ -45,7 +45,11 @@ func (s *Service) Backup(ctx context.Context, target config.Target) (BackupResul
 		s.reportBackupFailure(ctx, target.ID, time.Since(start), err)
 		return result, err
 	}
-	defer os.Remove(tmpPath)
+	defer func() {
+		if err := os.Remove(tmpPath); err != nil && !os.IsNotExist(err) {
+			s.logger.Warn("temporary backup file removal failed", "target_id", target.ID, "path", tmpPath, "error", err)
+		}
+	}()
 
 	info, err := os.Stat(tmpPath)
 	if err != nil {
@@ -123,7 +127,11 @@ func (s *Service) uploadFile(ctx context.Context, path, key string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func() {
+		if err := file.Close(); err != nil {
+			s.logger.Warn("backup file close failed", "path", path, "s3_key", key, "error", err)
+		}
+	}()
 
 	_, err = s.s3.PutObject(ctx, &s3.PutObjectInput{
 		Bucket: aws.String(s.cfg.S3.Bucket),

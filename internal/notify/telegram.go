@@ -63,7 +63,9 @@ func (t *Telegram) send(ctx context.Context, text string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return fmt.Errorf("telegram returned status %s", resp.Status)
 	}
